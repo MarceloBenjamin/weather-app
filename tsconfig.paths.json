@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@routes": ["./src/routes"],
+      
+      "@pages": ["./src/pages"],
+      "@pages/*": ["./src/pages/*"],
+      
+      "@api": ["./src/service/api.tsx"],
+
+      "@theme": ["./src/theme"],
+
+      "@components": ["./src/components"],
+    }
+  }
+}
