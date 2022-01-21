@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
+
+import { setTempType } from '@ducks/city';
 
 import { Select, MenuItem, SelectChangeEvent } from '@mui/material';
 
@@ -11,33 +13,30 @@ import kelvinToFahrenheit from 'kelvin-to-fahrenheit';
 import { Container, ContainerTemp, ContainerWind } from './styles';
 
 const Temp: React.FC = () => {
-  const { temp, wind } = useSelector((state: ReduxState) => state.city);
+  const dispatch = useDispatch();
+  const { temp, tempType, wind } = useSelector(
+    (state: ReduxState) => state.city,
+  );
 
   const [temperature, setTemperature] = useState(temp?.temp);
 
   const tempOptions = ['Celsius', 'Fahrenheit', 'Kelvin'];
 
-  const [tempType, setTempType] = useState('Celsius');
-
   const handleChange = (e: SelectChangeEvent) => {
-    setTempType(e.target.value);
+    dispatch(setTempType(e.target.value));
   };
 
-  const handleTempType = () => {
-    if (!temp) return;
-
+  const handleTempType = (value: number) => {
     if (tempType === 'Celsius') {
-      setTemperature(kelvinToCelsius(temp.temp));
-    } else if (tempType === 'Fahrenheit') {
-      setTemperature(kelvinToFahrenheit(temp.temp));
-    } else {
-      setTemperature(temp.temp);
+      return kelvinToCelsius(value);
     }
-  };
 
-  useEffect(() => {
-    handleTempType();
-  }, [tempType, temp]);
+    if (tempType === 'Fahrenheit') {
+      return kelvinToFahrenheit(value);
+    }
+
+    return value;
+  };
 
   return (
     <Container>
@@ -57,7 +56,9 @@ const Temp: React.FC = () => {
           ))}
         </Select>
 
-        <span>{`${temperature} °${tempType[0]}`}</span>
+        <span>
+          {temp?.temp && `${handleTempType(temp?.temp)} °${tempType[0]}`}
+        </span>
       </ContainerTemp>
     </Container>
   );

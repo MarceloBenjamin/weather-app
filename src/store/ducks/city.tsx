@@ -18,6 +18,7 @@ interface Clouds {
 
 export interface CityState {
   city: string | null;
+  tempType: string;
   temp: Temp | null;
   wind: Wind | null;
   clouds: Clouds | null;
@@ -26,6 +27,7 @@ export interface CityState {
 // Action Types
 const types = {
   city: 'city',
+  tempType: 'tempType',
   temp: 'temp',
   wind: 'wind',
   clouds: 'clouds',
@@ -34,6 +36,7 @@ const types = {
 // Initial State
 const initial: CityState = {
   city: null,
+  tempType: 'Celsius',
   temp: null,
   wind: null,
   clouds: null,
@@ -55,6 +58,11 @@ export default function reducer(state = initial, action: any) {
 // Actions
 export const setCity = (value: string | null) => ({
   type: types.city,
+  payload: value,
+});
+
+export const setTempType = (value: string) => ({
+  type: types.tempType,
   payload: value,
 });
 
