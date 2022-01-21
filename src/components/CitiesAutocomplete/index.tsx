@@ -68,12 +68,6 @@ const CitiesAutocomplete = () => {
     );
   });
 
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition((location: any) => {
-  //     console.log(location);
-  //   });
-  // }, []);
-
   return (
     <Autocomplete
       freeSolo
