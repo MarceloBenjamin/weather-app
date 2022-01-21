@@ -16,6 +16,7 @@ export const SetupInterceptors: React.FC = () => {
       async (config: AxiosRequestConfig) => {
         config.params = {
           ...config.params,
+          lang: 'pt_br',
           appid: process.env.REACT_APP_API_KEY,
         };
 
