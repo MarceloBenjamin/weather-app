@@ -7,21 +7,39 @@ interface Temp {
   humidity: number;
 }
 
+interface Wind {
+  speed: number;
+  deg: number;
+}
+
+interface Clouds {
+  all: number;
+}
+
 export interface CityState {
   city: string | null;
+  tempType: string;
   temp: Temp | null;
+  wind: Wind | null;
+  clouds: Clouds | null;
 }
 
 // Action Types
 const types = {
   city: 'city',
+  tempType: 'tempType',
   temp: 'temp',
+  wind: 'wind',
+  clouds: 'clouds',
 };
 
 // Initial State
 const initial: CityState = {
   city: null,
+  tempType: 'Celsius',
   temp: null,
+  wind: null,
+  clouds: null,
 };
 
 // Reducer
@@ -43,8 +61,23 @@ export const setCity = (value: string | null) => ({
   payload: value,
 });
 
+export const setTempType = (value: string) => ({
+  type: types.tempType,
+  payload: value,
+});
+
 export const setTemp = (value: Temp | null) => ({
   type: types.temp,
+  payload: value,
+});
+
+export const setWind = (value: Wind | null) => ({
+  type: types.wind,
+  payload: value,
+});
+
+export const setClouds = (value: Clouds | null) => ({
+  type: types.clouds,
   payload: value,
 });
 
