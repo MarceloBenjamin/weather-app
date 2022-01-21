@@ -1,11 +1,64 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-// import { Container } from './styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { ReduxState } from '@ducks';
 
-const Home: React.FC = () => (
-  <div>
-    <span>aqui</span>
-  </div>
-);
+import { setTemp } from '@ducks/city';
+
+import api from '@api';
+
+import { Grid } from '@mui/material';
+
+import PageGrid from '@components/PageGrid';
+
+import CitiesAutocomplete from '@components/CitiesAutocomplete';
+import Temp from '@components/Temp';
+
+import { ContainerInput, ContainerValue, ContainerInfo } from './styles';
+
+const Home: React.FC = () => {
+  const dispatch = useDispatch();
+  const { city } = useSelector((state: ReduxState) => state.city);
+
+  const getWeather = async () => {
+    try {
+      const { data } = await api.get('/data/2.5/weather', {
+        params: {
+          q: city,
+        },
+      });
+
+      dispatch(setTemp(data?.main || null));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (city !== null) {
+      getWeather();
+    }
+  }, [city]);
+
+  return (
+    <PageGrid>
+      <Grid item xs={6}>
+        <ContainerInput>
+          <CitiesAutocomplete />
+        </ContainerInput>
+      </Grid>
+
+      <Grid item xs={6}>
+        <ContainerValue>
+          <Temp />
+        </ContainerValue>
+      </Grid>
+
+      <Grid item xs={12}>
+        <ContainerInfo />
+      </Grid>
+    </PageGrid>
+  );
+};
 
 export default Home;

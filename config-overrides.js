@@ -10,6 +10,7 @@ module.exports = function override(config) {
       '@api': path.resolve(__dirname, 'src/service/api.tsx'),
       '@theme': path.resolve(__dirname, 'src/theme/index'),
       '@components': path.resolve(__dirname, 'src/components'),
+      '@ducks': path.resolve(__dirname, 'src/store/ducks'),
     },
   };
 

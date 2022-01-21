@@ -12,6 +12,10 @@
       "@theme": ["./src/theme"],
 
       "@components": ["./src/components"],
+      "@components/*": ["./src/components/*"],
+
+      "@ducks": ["./src/store/ducks"],
+      "@ducks/*": ["./src/store/ducks/*"],
     }
   }
 }

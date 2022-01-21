@@ -13,7 +13,14 @@ const axiosInstance: any = axios.create({
 export const SetupInterceptors: React.FC = () => {
   const configInterceptors = () => {
     axiosInstance.interceptors.request.use(
-      async (config: AxiosRequestConfig) => config,
+      async (config: AxiosRequestConfig) => {
+        config.params = {
+          ...config.params,
+          appid: process.env.REACT_APP_API_KEY,
+        };
+
+        return config;
+      },
       (error: AxiosError) => Promise.reject(error),
     );
 
