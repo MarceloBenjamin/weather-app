@@ -35,10 +35,6 @@ const CitiesAutocomplete = () => {
     }
   }, [search]);
 
-  useEffect(() => {
-    console.log(city);
-  }, [city]);
-
   const ListboxComponent = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLElement>

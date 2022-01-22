@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
 
-import { setTemp, setWind, setClouds } from '@ducks/city';
+import { setTemp, setWind, setClouds, setCity } from '@ducks/city';
 
 import api from '@api';
 
@@ -33,6 +33,8 @@ const Home: React.FC = () => {
       dispatch(setTemp(data?.main || null));
       dispatch(setWind(data?.wind || null));
       dispatch(setClouds(data?.clouds || null));
+
+      dispatch(setCity(null));
     } catch (error) {
       console.log(error);
     }
