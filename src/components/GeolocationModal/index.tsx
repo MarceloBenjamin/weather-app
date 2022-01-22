@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
 
-import { setLat, setLon, setAllowed, setError } from '@ducks/geolocation';
+import { setAllowed, setError } from '@ducks/geolocation';
 import { setTemp, setWind, setClouds, setCity } from '@ducks/city';
 
 import api from '@api';

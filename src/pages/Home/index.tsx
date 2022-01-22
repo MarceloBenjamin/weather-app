@@ -3,7 +3,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
 
-import { setTemp, setWind, setClouds, setCity } from '@ducks/city';
+import {
+  setTemp,
+  setWind,
+  setClouds,
+  setCity,
+  setLoading,
+  setErrorMessage,
+} from '@ducks/city';
 
 import api from '@api';
 
@@ -23,6 +30,7 @@ const Home: React.FC = () => {
   const { city } = useSelector((state: ReduxState) => state.city);
 
   const getWeather = async () => {
+    dispatch(setLoading(true));
     try {
       const { data } = await api.get('/data/2.5/weather', {
         params: {
@@ -35,8 +43,14 @@ const Home: React.FC = () => {
       dispatch(setClouds(data?.clouds || null));
 
       dispatch(setCity(null));
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error?.response?.status === 404) {
+        dispatch(setErrorMessage(`Cidade "${city}" não encontrada`));
+      } else {
+        dispatch(setErrorMessage(`Erro ao procurar`));
+      }
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -51,13 +65,13 @@ const Home: React.FC = () => {
       <GeolocationModal />
 
       <PageGrid>
-        <Grid item xs={6}>
+        <Grid item xs={5}>
           <ContainerInput>
             <CitiesAutocomplete />
           </ContainerInput>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={7}>
           <ContainerValue>
             <Temp />
           </ContainerValue>
