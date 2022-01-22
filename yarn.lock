@@ -6145,6 +6145,11 @@ methods@~1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
 
+mi-to-km@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mi-to-km/-/mi-to-km-1.0.0.tgz#8cb97255e1e30b309b623ce108f7d31a884b1583"
+  integrity sha1-jLlyVeHjCzCbYjzhCPfTGohLFYM=
+
 micromatch@^4.0.2, micromatch@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.4.tgz#896d519dfe9db25fce94ceb7a500919bf881ebf9"

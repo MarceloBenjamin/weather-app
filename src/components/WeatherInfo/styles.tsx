@@ -5,12 +5,9 @@ export const Container = styled(Box)({
   flexDirection: 'row',
 });
 
-export const ContainerTemp = styled(Box)({
+export const ContainerInfo = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
-});
-
-export const ContainerWind = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
+  marginLeft: 10,
+  marginRight: 10,
 });

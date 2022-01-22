@@ -19,8 +19,8 @@ import { Grid } from '@mui/material';
 import PageGrid from '@components/PageGrid';
 
 import CitiesAutocomplete from '@components/CitiesAutocomplete';
-import Temp from '@components/Temp';
 import Weather from '@components/Weather';
+import WeatherInfo from '@components/WeatherInfo';
 import GeolocationModal from '@components/GeolocationModal';
 
 import { ContainerInput, ContainerValue, ContainerInfo } from './styles';
@@ -73,13 +73,13 @@ const Home: React.FC = () => {
 
         <Grid item xs={7}>
           <ContainerValue>
-            <Temp />
+            <Weather />
           </ContainerValue>
         </Grid>
 
         <Grid item xs={12}>
           <ContainerInfo>
-            <Weather />
+            <WeatherInfo />
           </ContainerInfo>
         </Grid>
       </PageGrid>
