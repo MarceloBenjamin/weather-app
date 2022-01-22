@@ -35,6 +35,15 @@ const theme = createTheme({
   typography: {
     fontFamily: 'Montserrat',
   },
+  components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: '15px !important',
+        },
+      },
+    },
+  },
 });
 
 export default theme;

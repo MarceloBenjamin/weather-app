@@ -22,6 +22,8 @@ export interface CityState {
   temp: Temp | null;
   wind: Wind | null;
   clouds: Clouds | null;
+  loading: boolean;
+  errorMessage: string;
 }
 
 // Action Types
@@ -31,6 +33,8 @@ const types = {
   temp: 'temp',
   wind: 'wind',
   clouds: 'clouds',
+  loading: 'loading',
+  errorMessage: 'errorMessage',
 };
 
 // Initial State
@@ -40,6 +44,8 @@ const initial: CityState = {
   temp: null,
   wind: null,
   clouds: null,
+  loading: false,
+  errorMessage: '',
 };
 
 // Reducer
@@ -56,7 +62,7 @@ export default function reducer(state = initial, action: any) {
 }
 
 // Actions
-export const setCity = (value: string | null) => ({
+export const setCity = (value: string | null | unknown) => ({
   type: types.city,
   payload: value,
 });
@@ -78,6 +84,16 @@ export const setWind = (value: Wind | null) => ({
 
 export const setClouds = (value: Clouds | null) => ({
   type: types.clouds,
+  payload: value,
+});
+
+export const setLoading = (value: boolean) => ({
+  type: types.loading,
+  payload: value,
+});
+
+export const setErrorMessage = (value: string) => ({
+  type: types.errorMessage,
   payload: value,
 });
 

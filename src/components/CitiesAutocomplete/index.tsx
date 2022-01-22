@@ -1,26 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
 
-import { setCity } from '@ducks/city';
+import { setCity, setErrorMessage } from '@ducks/city';
 
-import { TextField, Autocomplete } from '@mui/material';
 import { List } from 'react-virtualized';
 
 import citiesList from 'cities-list';
 
 import accents from 'remove-accents';
 
+import { SizeMe } from 'react-sizeme';
+
+import { Search } from '@mui/icons-material';
+import { TextField, Autocomplete, CircularProgress } from '@mui/material';
+
+import { Container, ContainerInput, SearchButton } from './styles';
+
 const CitiesAutocomplete = () => {
   const dispatch = useDispatch();
 
-  const { city } = useSelector((state: ReduxState) => state.city);
+  const { city, loading, errorMessage } = useSelector(
+    (state: ReduxState) => state.city,
+  );
 
   const allCities = Object.keys(citiesList);
 
   const [list, setList] = useState<any>([]);
   const [search, setSearch] = useState('');
+
+  const [inputWidth, setInputWidth] = useState(0);
 
   useEffect(() => {
     if (search === '' || search.length <= 2) {
@@ -40,16 +50,21 @@ const CitiesAutocomplete = () => {
     React.HTMLAttributes<HTMLElement>
   >((props, ref) => {
     const { children, ...other }: any = props;
-    const itemCount = Array.isArray(children) ? children.length : 0;
-    const itemSize = 36;
+    const itemCount: any = Array.isArray(children) ? children.length : 0;
 
     return (
-      <div ref={ref}>
-        <div {...other}>
+      <div ref={ref} style={{ backgroundColor: 'rgba(0,0,0,0)' }}>
+        <div
+          {...other}
+          style={{
+            padding: 0,
+            backgroundColor: '#fff',
+          }}
+        >
           <List
-            height={250}
-            width={300}
-            rowHeight={itemSize}
+            height={itemCount > 5 ? 250 : itemCount * 48}
+            width={inputWidth}
+            rowHeight={48}
             overscanCount={5}
             rowCount={itemCount}
             rowRenderer={(rowProps: any) =>
@@ -64,22 +79,80 @@ const CitiesAutocomplete = () => {
     );
   });
 
+  const handleOnChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: unknown,
+  ) => {
+    dispatch(setCity(value));
+  };
+
+  useEffect(() => {
+    setSearch(`${city || ''}`);
+    dispatch(setErrorMessage(''));
+  }, [city]);
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+
+    dispatch(setCity(search));
+  };
+
   return (
-    <Autocomplete
-      freeSolo
-      value={city}
-      onChange={(event: any, newValue: string | null) => {
-        dispatch(setCity(newValue));
-      }}
-      style={{ width: 300 }}
-      disableListWrap
-      ListboxComponent={ListboxComponent}
-      onInputChange={(event, newInputValue) => setSearch(newInputValue)}
-      options={list}
-      renderInput={(params: any) => (
-        <TextField {...params} variant="outlined" label="Cidade" fullWidth />
-      )}
-    />
+    <Container>
+      <ContainerInput component="form" onSubmit={submit}>
+        <SizeMe>
+          {({ size }: any) => {
+            setInputWidth(size.width);
+
+            return (
+              <Autocomplete
+                value={city}
+                inputValue={search}
+                freeSolo
+                openOnFocus
+                disableListWrap
+                disabled={loading}
+                ListboxComponent={ListboxComponent}
+                componentsProps={{
+                  paper: {
+                    style: {
+                      borderRadius: 15,
+                      marginTop: 15,
+                      boxShadow: '0px 8px 10px rgba(149, 157, 165, 0.2)',
+                      backgroundColor: 'rgba(0,0,0,0)',
+                    },
+                  },
+                }}
+                options={list}
+                onChange={handleOnChange}
+                onInputChange={(event, newInputValue) =>
+                  setSearch(newInputValue)
+                }
+                renderInput={(params: any) => (
+                  <TextField
+                    {...params}
+                    required
+                    variant="outlined"
+                    label="Pesquise pelo nome da cidade"
+                    placeholder="Brasília, São Paulo, New York..."
+                    helperText={errorMessage}
+                    error={Boolean(errorMessage)}
+                  />
+                )}
+                style={{ width: '100%' }}
+              />
+            );
+          }}
+        </SizeMe>
+
+        <div>
+          <SearchButton disabled={loading} type="submit" variant="outlined">
+            {!loading && <Search />}
+            {loading && <CircularProgress size={24} />}
+          </SearchButton>
+        </div>
+      </ContainerInput>
+    </Container>
   );
 };
 
