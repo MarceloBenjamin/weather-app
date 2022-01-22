@@ -8,7 +8,7 @@ import reducers from '@ducks';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: [],
+  whitelist: ['geolocation'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

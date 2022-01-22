@@ -35,10 +35,6 @@ const CitiesAutocomplete = () => {
     }
   }, [search]);
 
-  useEffect(() => {
-    console.log(city);
-  }, [city]);
-
   const ListboxComponent = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLElement>
@@ -67,12 +63,6 @@ const CitiesAutocomplete = () => {
       </div>
     );
   });
-
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition((location: any) => {
-  //     console.log(location);
-  //   });
-  // }, []);
 
   return (
     <Autocomplete
