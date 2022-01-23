@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import React from 'react';
 
 import { useSelector } from 'react-redux';
@@ -6,7 +7,26 @@ import { ReduxState } from '@ducks';
 import kelvinToCelsius from 'kelvin-to-celsius';
 import kelvinToFahrenheit from 'kelvin-to-fahrenheit';
 
-import { Container, ContainerInfo } from './styles';
+import { Grow } from '@mui/material';
+
+import Icon from '@mdi/react';
+import {
+  mdiThermometerMinus,
+  mdiThermometerPlus,
+  mdiWeatherFog,
+  mdiThermometerLines,
+} from '@mdi/js';
+
+import {
+  Container,
+  ContainerInfo,
+  ContainerTitle,
+  Title,
+  ContainerValue,
+  BoxValue,
+  TempValue,
+  TempType,
+} from './styles';
 
 const WeatherInfo: React.FC = () => {
   const { temp, tempType, clouds } = useSelector(
@@ -15,43 +35,65 @@ const WeatherInfo: React.FC = () => {
 
   const handleTempType = (value: number) => {
     if (tempType === 'Celsius') {
-      return kelvinToCelsius(temp?.temp);
+      return parseInt(`${kelvinToCelsius(temp?.temp)}`);
     }
 
     if (tempType === 'Fahrenheit') {
-      return kelvinToFahrenheit(temp?.temp);
+      return parseInt(`${kelvinToFahrenheit(temp?.temp)}`);
     }
 
-    return value;
+    return parseInt(`${value}`);
   };
+
+  const values = [
+    {
+      path: mdiThermometerPlus,
+      title: 'Máxima',
+      value: handleTempType(temp?.temp_max || 0),
+      type: `°${tempType[0]}`,
+    },
+    {
+      path: mdiThermometerMinus,
+      title: 'Mínima',
+      value: handleTempType(temp?.temp_min || 0),
+      type: `°${tempType[0]}`,
+    },
+    {
+      path: mdiThermometerLines,
+      title: 'Sensação Térmica',
+      value: handleTempType(temp?.feels_like || 0),
+      type: `°${tempType[0]}`,
+    },
+    {
+      path: mdiWeatherFog,
+      title: 'Nebulosidade',
+      value: clouds?.all || 0,
+      type: `%`,
+    },
+  ];
 
   return (
     <Container>
-      <ContainerInfo>
-        <span>Maxima</span>
-        <span>
-          {temp?.temp_max && handleTempType(temp?.temp_max)} °{tempType[0]}
-        </span>
-      </ContainerInfo>
+      {values.map((item: any, index: number) => (
+        <Grow key={item.title} in timeout={index * 500}>
+          <ContainerInfo key={item.title}>
+            <ContainerTitle>
+              <Icon color="#7c7c7c" size={2} path={item.path} />
+            </ContainerTitle>
 
-      <ContainerInfo>
-        <span>Minima</span>
-        <span>
-          {temp?.temp_min && handleTempType(temp?.temp_min)} °{tempType[0]}
-        </span>
-      </ContainerInfo>
+            <ContainerValue>
+              <BoxValue>
+                <TempValue>{item.value}</TempValue>
+                <TempType>{item.type}</TempType>
+              </BoxValue>
+            </ContainerValue>
 
-      <ContainerInfo>
-        <span>Nebulosidade</span>
-        <span>{clouds?.all} %</span>
-      </ContainerInfo>
-
-      <ContainerInfo>
-        <span>Sensação Termica</span>
-        <span>
-          {temp?.feels_like && handleTempType(temp?.feels_like)} °{tempType[0]}
-        </span>
-      </ContainerInfo>
+            <ContainerTitle>
+              <Title>{item.title}</Title>
+            </ContainerTitle>
+          </ContainerInfo>
+        </Grow>
+      ))}
     </Container>
   );
 };

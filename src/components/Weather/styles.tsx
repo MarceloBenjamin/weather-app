@@ -40,7 +40,9 @@ export const Title = styled(Typography)({
   marginLeft: -4,
 });
 
-export const Subtitle = styled(Typography)({});
+export const Subtitle = styled(Typography)({
+  textTransform: 'capitalize',
+});
 
 export const ContainerWind = styled(Box)({
   display: 'flex',
@@ -68,4 +70,8 @@ export const TempValue = styled(Typography)({
 export const TempType = styled(Typography)({
   fontSize: 42,
   marginTop: 26,
+});
+
+export const ContainerAnimation = styled(Box)({
+  marginLeft: 15,
 });

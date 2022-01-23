@@ -12,6 +12,8 @@ import kelvinToCelsius from 'kelvin-to-celsius';
 import kelvinToFahrenheit from 'kelvin-to-fahrenheit';
 import miToKm from 'mi-to-km';
 
+import WeatherAnimation from '@components/WeatherAnimation';
+
 import {
   Container,
   ContainerTop,
@@ -25,11 +27,12 @@ import {
   ContainerValues,
   TempValue,
   TempType,
+  ContainerAnimation,
 } from './styles';
 
 const Weather: React.FC = () => {
   const dispatch = useDispatch();
-  const { temp, tempType, wind } = useSelector(
+  const { temp, tempType, wind, cityName, description, iconId } = useSelector(
     (state: ReduxState) => state.city,
   );
 
@@ -77,9 +80,9 @@ const Weather: React.FC = () => {
 
       <ContainerInfo>
         <ContainerDetails>
-          <Title>Brasília</Title>
+          <Title>{cityName}</Title>
 
-          <Subtitle>Nublado</Subtitle>
+          <Subtitle>{description}</Subtitle>
 
           <ContainerWind>
             <span>
@@ -97,9 +100,10 @@ const Weather: React.FC = () => {
             <TempValue>{`${handleTempType(temp?.temp || 0)}`}</TempValue>
             <TempType>{`°${tempType[0]}`}</TempType>
           </ContainerValues>
-          {/* <span>
-            {temp?.temp && `${handleTempType(temp?.temp)} °${tempType[0]}`}
-          </span> */}
+
+          <ContainerAnimation>
+            <WeatherAnimation icon={iconId} />
+          </ContainerAnimation>
         </ContainerTemp>
       </ContainerInfo>
     </Container>

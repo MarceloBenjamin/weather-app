@@ -8,6 +8,9 @@ import {
   setWind,
   setClouds,
   setCity,
+  setCityName,
+  setDescription,
+  setIconId,
   setLoading,
   setErrorMessage,
 } from '@ducks/city';
@@ -41,6 +44,9 @@ const Home: React.FC = () => {
       dispatch(setTemp(data?.main || null));
       dispatch(setWind(data?.wind || null));
       dispatch(setClouds(data?.clouds || null));
+      dispatch(setCityName(data?.name || ''));
+      dispatch(setDescription(data?.weather[0]?.description || ''));
+      dispatch(setIconId(data?.weather[0]?.icon || ''));
 
       dispatch(setCity(null));
     } catch (error: any) {

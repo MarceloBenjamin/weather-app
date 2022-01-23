@@ -22,6 +22,9 @@ export interface CityState {
   temp: Temp | null;
   wind: Wind | null;
   clouds: Clouds | null;
+  cityName: string;
+  description: string;
+  iconId: string;
   loading: boolean;
   errorMessage: string;
 }
@@ -33,6 +36,9 @@ const types = {
   temp: 'temp',
   wind: 'wind',
   clouds: 'clouds',
+  cityName: 'cityName',
+  description: 'description',
+  iconId: 'iconId',
   loading: 'loading',
   errorMessage: 'errorMessage',
 };
@@ -44,6 +50,9 @@ const initial: CityState = {
   temp: null,
   wind: null,
   clouds: null,
+  cityName: '',
+  description: '',
+  iconId: '',
   loading: false,
   errorMessage: '',
 };
@@ -84,6 +93,21 @@ export const setWind = (value: Wind | null) => ({
 
 export const setClouds = (value: Clouds | null) => ({
   type: types.clouds,
+  payload: value,
+});
+
+export const setCityName = (value: string) => ({
+  type: types.cityName,
+  payload: value,
+});
+
+export const setDescription = (value: string) => ({
+  type: types.description,
+  payload: value,
+});
+
+export const setIconId = (value: string) => ({
+  type: types.iconId,
   payload: value,
 });
 
