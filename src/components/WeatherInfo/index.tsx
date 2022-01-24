@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
 
-import kelvinToCelsius from 'kelvin-to-celsius';
-import kelvinToFahrenheit from 'kelvin-to-fahrenheit';
+import { handleTempType } from '@utils';
 
 import { Grow, useTheme } from '@mui/material';
 
@@ -34,18 +33,6 @@ const WeatherInfo: React.FC = () => {
   const { temp, tempType, clouds } = useSelector(
     (state: ReduxState) => state.city,
   );
-
-  const handleTempType = (value: number) => {
-    if (tempType === 'Celsius') {
-      return parseInt(`${kelvinToCelsius(value)}`);
-    }
-
-    if (tempType === 'Fahrenheit') {
-      return parseInt(`${kelvinToFahrenheit(value)}`);
-    }
-
-    return parseInt(`${value}`);
-  };
 
   const [values, setValues] = useState<any>([]);
 
@@ -104,7 +91,7 @@ const WeatherInfo: React.FC = () => {
                 <TempValue color="primary">
                   {item.title === 'Nebulosidade'
                     ? item.value
-                    : handleTempType(item.value)}
+                    : handleTempType(tempType, item.value)}
                 </TempValue>
                 <TempType color="secondary">{item.type}</TempType>
               </BoxValue>

@@ -15,8 +15,7 @@ import {
   useTheme,
 } from '@mui/material';
 
-import kelvinToCelsius from 'kelvin-to-celsius';
-import kelvinToFahrenheit from 'kelvin-to-fahrenheit';
+import { handleTempType } from '@utils';
 import miToKm from 'mi-to-km';
 
 import WeatherAnimation from '@components/WeatherAnimation';
@@ -39,36 +38,14 @@ import {
 } from './styles';
 
 const Weather: React.FC = () => {
-  const theme = useTheme();
-
   const dispatch = useDispatch();
-  const {
-    temp,
-    tempType,
-    wind,
-    cityName,
-    description,
-    iconId,
-    loading,
-    update,
-  } = useSelector((state: ReduxState) => state.city);
+  const { temp, tempType, wind, cityName, description, iconId, loading } =
+    useSelector((state: ReduxState) => state.city);
 
   const tempOptions = ['Celsius', 'Fahrenheit', 'Kelvin'];
 
   const handleChange = (e: SelectChangeEvent) => {
     dispatch(setTempType(e.target.value));
-  };
-
-  const handleTempType = (value: number) => {
-    if (tempType === 'Celsius') {
-      return parseInt(`${kelvinToCelsius(value)}`);
-    }
-
-    if (tempType === 'Fahrenheit') {
-      return parseInt(`${kelvinToFahrenheit(value)}`);
-    }
-
-    return parseInt(`${value}`);
   };
 
   const handleKmValue = (value: number) => {
@@ -82,17 +59,9 @@ const Weather: React.FC = () => {
   };
 
   return (
-    <Container
-      sx={{
-        [theme.breakpoints.up('xs')]: { paddingTop: '60px' },
-        [theme.breakpoints.up('lg')]: { paddingTop: '120px' },
-      }}
-    >
+    <Container>
       <ContainerTop>
-        <Grow
-          in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}
-          timeout={700}
-        >
+        <Grow in={Boolean(temp)} timeout={700}>
           <UpdateButton
             disabled={loading}
             variant="outlined"
@@ -102,10 +71,7 @@ const Weather: React.FC = () => {
           </UpdateButton>
         </Grow>
 
-        <Grow
-          in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}
-          timeout={1100}
-        >
+        <Grow in={Boolean(temp)} timeout={1100}>
           <Select
             value={tempType}
             onChange={handleChange}
@@ -120,24 +86,14 @@ const Weather: React.FC = () => {
         </Grow>
       </ContainerTop>
 
-      <ContainerInfo
-        sx={{
-          [theme.breakpoints.up('xs')]: { flexDirection: 'column' },
-          [theme.breakpoints.up('lg')]: { flexDirection: 'row' },
-        }}
-      >
-        <Fade in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}>
+      <ContainerInfo>
+        <Fade in={Boolean(temp)}>
           <ContainerDetails>
             <Title color="primary">{cityName}</Title>
 
             <Subtitle color="primary">{description}</Subtitle>
 
-            <ContainerWind
-              sx={{
-                [theme.breakpoints.up('xs')]: { marginTop: '0px' },
-                [theme.breakpoints.up('lg')]: { marginTop: '120px' },
-              }}
-            >
+            <ContainerWind>
               <Text color="primary">
                 Velocidade do vento:{' '}
                 {wind?.speed ? handleKmValue(wind?.speed) : 0} km/h
@@ -152,6 +108,7 @@ const Weather: React.FC = () => {
           <ContainerTemp>
             <ContainerValues>
               <TempValue color="primary">{`${handleTempType(
+                tempType,
                 temp?.temp || 0,
               )}`}</TempValue>
               <TempType color="secondary">{`°${tempType[0]}`}</TempType>

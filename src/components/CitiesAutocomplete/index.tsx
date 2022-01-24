@@ -134,7 +134,7 @@ const CitiesAutocomplete = () => {
                       {...params}
                       required
                       variant="outlined"
-                      label="Pesquise o clima pelo nome de uma cidade"
+                      label="Pesquise o clima da cidade pelo nome"
                       placeholder="Brasília, São Paulo, New York..."
                       helperText={errorMessage}
                       error={Boolean(errorMessage)}

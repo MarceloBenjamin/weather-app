@@ -1,12 +1,14 @@
 import { styled, Box, Button, Typography } from '@mui/material';
 
-export const Container = styled(Box)({
+export const Container = styled(Box)(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
   paddingLeft: 60,
   paddingRight: 60,
-});
+  [theme.breakpoints.up('xs')]: { paddingTop: '60px' },
+  [theme.breakpoints.up('lg')]: { paddingTop: '120px' },
+}));
 
 export const ContainerTop = styled(Box)({
   width: '100%',
@@ -20,13 +22,15 @@ export const UpdateButton = styled(Button)({
   marginRight: 15,
 });
 
-export const ContainerInfo = styled(Box)({
+export const ContainerInfo = styled(Box)(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
   marginTop: 15,
-});
+  [theme.breakpoints.up('xs')]: { flexDirection: 'column' },
+  [theme.breakpoints.up('lg')]: { flexDirection: 'row' },
+}));
 
 export const ContainerDetails = styled(Box)({
   display: 'flex',
@@ -42,10 +46,12 @@ export const Subtitle = styled(Typography)({
   textTransform: 'capitalize',
 });
 
-export const ContainerWind = styled(Box)({
+export const ContainerWind = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-});
+  [theme.breakpoints.up('xs')]: { marginTop: '0px' },
+  [theme.breakpoints.up('lg')]: { marginTop: '120px' },
+}));
 
 export const ContainerTemp = styled(Box)({
   display: 'flex',

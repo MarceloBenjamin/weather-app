@@ -12,6 +12,7 @@ module.exports = function override(config) {
       '@components': path.resolve(__dirname, 'src/components'),
       '@ducks': path.resolve(__dirname, 'src/store/ducks'),
       '@assets': path.resolve(__dirname, 'src/assets'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
     },
   };
 

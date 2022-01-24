@@ -4,20 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
 
 import { setAllowed, setError } from '@ducks/geolocation';
-import {
-  setTemp,
-  setWind,
-  setClouds,
-  setCity,
-  setCityName,
-  setLatitude,
-  setLongetude,
-  setDescription,
-  setIconId,
-  setLoading,
-} from '@ducks/city';
-
-import api from '@api';
+import { setLatitude, setLongetude, setUpdate } from '@ducks/city';
 
 import { Fade } from '@mui/material';
 
@@ -36,31 +23,10 @@ const GeolocationModal: React.FC = () => {
   const [show, setShow] = useState(false);
 
   // eslint-disable-next-line no-undef
-  const getCityWeather = async (location: GeolocationPosition) => {
-    dispatch(setLoading(true));
-    try {
-      const { data } = await api.get('/data/2.5/weather', {
-        params: {
-          lat: location.coords.latitude,
-          lon: location.coords.longitude,
-        },
-      });
-
-      dispatch(setTemp(data?.main || null));
-      dispatch(setWind(data?.wind || null));
-      dispatch(setClouds(data?.clouds || null));
-      dispatch(setLatitude(data?.coord?.lat || 0));
-      dispatch(setLongetude(data?.coord?.lon || 0));
-      dispatch(setCityName(data?.name || ''));
-      dispatch(setDescription(data?.weather[0]?.description || ''));
-      dispatch(setIconId(data?.weather[0]?.icon || ''));
-
-      dispatch(setCity(null));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(setLoading(false));
-    }
+  const getCityWeather = (location: GeolocationPosition) => {
+    dispatch(setLatitude(location.coords.latitude));
+    dispatch(setLongetude(location.coords.longitude));
+    dispatch(setUpdate(true));
   };
 
   // eslint-disable-next-line no-undef
