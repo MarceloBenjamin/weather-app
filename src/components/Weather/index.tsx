@@ -1,56 +1,143 @@
+/* eslint-disable radix */
 import React from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
+
+import { setTempType, setUpdate } from '@ducks/city';
+
+import { Select, MenuItem, SelectChangeEvent, Fade, Grow } from '@mui/material';
 
 import kelvinToCelsius from 'kelvin-to-celsius';
 import kelvinToFahrenheit from 'kelvin-to-fahrenheit';
+import miToKm from 'mi-to-km';
 
-import { Container, ContainerInfo } from './styles';
+import WeatherAnimation from '@components/WeatherAnimation';
+
+import {
+  Container,
+  ContainerTop,
+  UpdateButton,
+  ContainerInfo,
+  ContainerDetails,
+  Subtitle,
+  Title,
+  ContainerWind,
+  ContainerTemp,
+  ContainerValues,
+  TempValue,
+  TempType,
+  ContainerAnimation,
+  Text,
+} from './styles';
 
 const Weather: React.FC = () => {
-  const { temp, tempType, clouds } = useSelector(
-    (state: ReduxState) => state.city,
-  );
+  const dispatch = useDispatch();
+  const {
+    temp,
+    tempType,
+    wind,
+    cityName,
+    description,
+    iconId,
+    loading,
+    update,
+  } = useSelector((state: ReduxState) => state.city);
+
+  const tempOptions = ['Celsius', 'Fahrenheit', 'Kelvin'];
+
+  const handleChange = (e: SelectChangeEvent) => {
+    dispatch(setTempType(e.target.value));
+  };
 
   const handleTempType = (value: number) => {
     if (tempType === 'Celsius') {
-      return kelvinToCelsius(temp?.temp);
+      return parseInt(`${kelvinToCelsius(value)}`);
     }
 
     if (tempType === 'Fahrenheit') {
-      return kelvinToFahrenheit(temp?.temp);
+      return parseInt(`${kelvinToFahrenheit(value)}`);
     }
 
-    return value;
+    return parseInt(`${value}`);
+  };
+
+  const handleKmValue = (value: number) => {
+    let aux = miToKm(value);
+    aux = parseInt(`${aux}`);
+    return aux;
+  };
+
+  const handleUpdate = () => {
+    dispatch(setUpdate(!update));
   };
 
   return (
     <Container>
-      <ContainerInfo>
-        <span>Maxima</span>
-        <span>
-          {temp?.temp_max && handleTempType(temp?.temp_max)} °{tempType[0]}
-        </span>
-      </ContainerInfo>
+      <ContainerTop>
+        <Grow
+          in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}
+          timeout={700}
+        >
+          <UpdateButton
+            disabled={loading}
+            variant="outlined"
+            onClick={handleUpdate}
+          >
+            Atualizar
+          </UpdateButton>
+        </Grow>
+
+        <Grow
+          in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}
+          timeout={1100}
+        >
+          <Select
+            value={tempType}
+            onChange={handleChange}
+            inputProps={{ style: { width: '90px !important' } }}
+          >
+            {tempOptions.map((tempValue: string) => (
+              <MenuItem key={tempValue} value={tempValue}>
+                {tempValue}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grow>
+      </ContainerTop>
 
       <ContainerInfo>
-        <span>Minima</span>
-        <span>
-          {temp?.temp_min && handleTempType(temp?.temp_min)} °{tempType[0]}
-        </span>
-      </ContainerInfo>
+        <Fade in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}>
+          <ContainerDetails>
+            <Title color="primary">{cityName}</Title>
 
-      <ContainerInfo>
-        <span>Nebulosidade</span>
-        <span>{clouds?.all} %</span>
-      </ContainerInfo>
+            <Subtitle color="primary">{description}</Subtitle>
 
-      <ContainerInfo>
-        <span>Sensação Termica</span>
-        <span>
-          {temp?.feels_like && handleTempType(temp?.feels_like)} °{tempType[0]}
-        </span>
+            <ContainerWind>
+              <Text color="primary">
+                Velocidade do vento:{' '}
+                {wind?.speed ? handleKmValue(wind?.speed) : 0} km/h
+              </Text>
+              <Text color="primary">Umidade: {temp?.humidity}%</Text>
+              <Text color="primary">Pressão: {temp?.pressure} hPa</Text>
+            </ContainerWind>
+          </ContainerDetails>
+        </Fade>
+
+        <Fade in={Boolean(temp?.temp && iconId)}>
+          <ContainerTemp>
+            <ContainerValues>
+              <TempValue color="primary">{`${handleTempType(
+                temp?.temp || 0,
+              )}`}</TempValue>
+              <TempType color="secondary">{`°${tempType[0]}`}</TempType>
+            </ContainerValues>
+
+            <ContainerAnimation>
+              <WeatherAnimation icon={iconId} />
+            </ContainerAnimation>
+          </ContainerTemp>
+        </Fade>
       </ContainerInfo>
     </Container>
   );

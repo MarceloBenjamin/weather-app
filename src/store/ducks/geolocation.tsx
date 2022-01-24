@@ -1,15 +1,11 @@
 export interface GeolocationState {
-  lat: number;
-  lon: number;
   tried: boolean;
   allowed: boolean | null;
-  error: string;
+  error: number | null;
 }
 
 // Action Types
 const types = {
-  lat: 'lat',
-  lon: 'lon',
   tried: 'tried',
   allowed: 'allowed',
   error: 'error',
@@ -17,11 +13,9 @@ const types = {
 
 // Initial State
 const initial: GeolocationState = {
-  lat: 0,
-  lon: 0,
   tried: false,
   allowed: null,
-  error: '',
+  error: null,
 };
 
 // Reducer
@@ -38,16 +32,6 @@ export default function reducer(state = initial, action: any) {
 }
 
 // Actions
-export const setLat = (value: number) => ({
-  type: types.lat,
-  payload: value,
-});
-
-export const setLon = (value: number) => ({
-  type: types.lon,
-  payload: value,
-});
-
 export const setTried = (value: boolean) => ({
   type: types.tried,
   payload: value,
@@ -58,7 +42,7 @@ export const setAllowed = (value: boolean | null) => ({
   payload: value,
 });
 
-export const setError = (value: string) => ({
+export const setError = (value: number | null) => ({
   type: types.error,
   payload: value,
 });

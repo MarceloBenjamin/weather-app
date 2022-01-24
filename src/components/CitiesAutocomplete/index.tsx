@@ -14,7 +14,7 @@ import accents from 'remove-accents';
 import { SizeMe } from 'react-sizeme';
 
 import { Search } from '@mui/icons-material';
-import { TextField, Autocomplete, CircularProgress } from '@mui/material';
+import { TextField, Autocomplete, CircularProgress, Fade } from '@mui/material';
 
 import { Container, ContainerInput, SearchButton } from './styles';
 
@@ -99,59 +99,61 @@ const CitiesAutocomplete = () => {
 
   return (
     <Container>
-      <ContainerInput component="form" onSubmit={submit}>
-        <SizeMe>
-          {({ size }: any) => {
-            setInputWidth(size.width);
+      <Fade in timeout={700}>
+        <ContainerInput component="form" onSubmit={submit}>
+          <SizeMe>
+            {({ size }: any) => {
+              setInputWidth(size.width);
 
-            return (
-              <Autocomplete
-                value={city}
-                inputValue={search}
-                freeSolo
-                openOnFocus
-                disableListWrap
-                disabled={loading}
-                ListboxComponent={ListboxComponent}
-                componentsProps={{
-                  paper: {
-                    style: {
-                      borderRadius: 15,
-                      marginTop: 15,
-                      boxShadow: '0px 8px 10px rgba(149, 157, 165, 0.2)',
-                      backgroundColor: 'rgba(0,0,0,0)',
+              return (
+                <Autocomplete
+                  value={city}
+                  inputValue={search}
+                  freeSolo
+                  openOnFocus
+                  disableListWrap
+                  disabled={loading}
+                  ListboxComponent={ListboxComponent}
+                  componentsProps={{
+                    paper: {
+                      style: {
+                        borderRadius: 15,
+                        marginTop: 15,
+                        boxShadow: '0px 8px 10px rgba(149, 157, 165, 0.2)',
+                        backgroundColor: 'rgba(0,0,0,0)',
+                      },
                     },
-                  },
-                }}
-                options={list}
-                onChange={handleOnChange}
-                onInputChange={(event, newInputValue) =>
-                  setSearch(newInputValue)
-                }
-                renderInput={(params: any) => (
-                  <TextField
-                    {...params}
-                    required
-                    variant="outlined"
-                    label="Pesquise pelo nome da cidade"
-                    placeholder="Brasília, São Paulo, New York..."
-                    helperText={errorMessage}
-                    error={Boolean(errorMessage)}
-                  />
-                )}
-                style={{ width: '100%' }}
-              />
-            );
-          }}
-        </SizeMe>
+                  }}
+                  options={list}
+                  onChange={handleOnChange}
+                  onInputChange={(event, newInputValue) =>
+                    setSearch(newInputValue)
+                  }
+                  renderInput={(params: any) => (
+                    <TextField
+                      {...params}
+                      required
+                      variant="outlined"
+                      label="Pesquise o clima pelo nome de uma cidade"
+                      placeholder="Brasília, São Paulo, New York..."
+                      helperText={errorMessage}
+                      error={Boolean(errorMessage)}
+                    />
+                  )}
+                  style={{ width: '100%' }}
+                />
+              );
+            }}
+          </SizeMe>
 
-        <div>
-          <SearchButton disabled={loading} type="submit" variant="outlined">
-            {!loading && <Search />}
-            {loading && <CircularProgress size={24} />}
-          </SearchButton>
-        </div>
-      </ContainerInput>
+          <div>
+            <SearchButton disabled={loading} type="submit" variant="outlined">
+              {!loading && <Search />}
+              {loading && <CircularProgress size={24} />}
+            </SearchButton>
+          </div>
+        </ContainerInput>
+      </Fade>
     </Container>
   );
 };

@@ -8,6 +8,11 @@ import {
   setWind,
   setClouds,
   setCity,
+  setLatitude,
+  setLongetude,
+  setCityName,
+  setDescription,
+  setIconId,
   setLoading,
   setErrorMessage,
 } from '@ducks/city';
@@ -19,28 +24,45 @@ import { Grid } from '@mui/material';
 import PageGrid from '@components/PageGrid';
 
 import CitiesAutocomplete from '@components/CitiesAutocomplete';
-import Temp from '@components/Temp';
 import Weather from '@components/Weather';
+import WeatherInfo from '@components/WeatherInfo';
 import GeolocationModal from '@components/GeolocationModal';
+import GeolocationHandler from '@components/GeolocationHandler';
+import BackgroundImage from '@components/BackgroundImage';
 
 import { ContainerInput, ContainerValue, ContainerInfo } from './styles';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
-  const { city } = useSelector((state: ReduxState) => state.city);
+  const { city, update, latitude, longetude } = useSelector(
+    (state: ReduxState) => state.city,
+  );
+
+  const getParams = () => {
+    if (city === null) {
+      return { lat: latitude, lon: longetude };
+    }
+
+    return { q: city };
+  };
 
   const getWeather = async () => {
     dispatch(setLoading(true));
     try {
       const { data } = await api.get('/data/2.5/weather', {
         params: {
-          q: city,
+          ...getParams(),
         },
       });
 
       dispatch(setTemp(data?.main || null));
       dispatch(setWind(data?.wind || null));
       dispatch(setClouds(data?.clouds || null));
+      dispatch(setLatitude(data?.coord?.lat || 0));
+      dispatch(setLongetude(data?.coord?.lon || 0));
+      dispatch(setCityName(data?.name || ''));
+      dispatch(setDescription(data?.weather[0]?.description || ''));
+      dispatch(setIconId(data?.weather[0]?.icon || ''));
 
       dispatch(setCity(null));
     } catch (error: any) {
@@ -57,29 +79,35 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (city !== null) {
       getWeather();
+    } else if (latitude !== 0 && longetude !== 0) {
+      getWeather();
     }
-  }, [city]);
+  }, [city, update]);
 
   return (
     <>
+      <BackgroundImage />
+
       <GeolocationModal />
 
       <PageGrid>
-        <Grid item xs={5}>
+        <Grid item xs={5} height={500} maxHeight={500}>
           <ContainerInput>
             <CitiesAutocomplete />
+
+            <GeolocationHandler />
           </ContainerInput>
         </Grid>
 
-        <Grid item xs={7}>
+        <Grid item xs={7} height={500} maxHeight={500}>
           <ContainerValue>
-            <Temp />
+            <Weather />
           </ContainerValue>
         </Grid>
 
         <Grid item xs={12}>
           <ContainerInfo>
-            <Weather />
+            <WeatherInfo />
           </ContainerInfo>
         </Grid>
       </PageGrid>

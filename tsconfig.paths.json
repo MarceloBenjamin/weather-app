@@ -16,6 +16,9 @@
 
       "@ducks": ["./src/store/ducks"],
       "@ducks/*": ["./src/store/ducks/*"],
+
+      "@assets": ["./src/assets"],
+      "@assets/*": ["./src/assets/*"],
     }
   }
 }

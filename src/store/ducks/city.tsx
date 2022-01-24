@@ -22,8 +22,14 @@ export interface CityState {
   temp: Temp | null;
   wind: Wind | null;
   clouds: Clouds | null;
+  latitude: number;
+  longetude: number;
+  cityName: string;
+  description: string;
+  iconId: string;
   loading: boolean;
   errorMessage: string;
+  update: boolean;
 }
 
 // Action Types
@@ -33,8 +39,14 @@ const types = {
   temp: 'temp',
   wind: 'wind',
   clouds: 'clouds',
+  latitude: 'latitude',
+  longetude: 'longetude',
+  cityName: 'cityName',
+  description: 'description',
+  iconId: 'iconId',
   loading: 'loading',
   errorMessage: 'errorMessage',
+  update: 'update',
 };
 
 // Initial State
@@ -44,8 +56,14 @@ const initial: CityState = {
   temp: null,
   wind: null,
   clouds: null,
+  latitude: 0,
+  longetude: 0,
+  cityName: '',
+  description: '',
+  iconId: '',
   loading: false,
   errorMessage: '',
+  update: false,
 };
 
 // Reducer
@@ -87,6 +105,31 @@ export const setClouds = (value: Clouds | null) => ({
   payload: value,
 });
 
+export const setLatitude = (value: number) => ({
+  type: types.latitude,
+  payload: value,
+});
+
+export const setLongetude = (value: number) => ({
+  type: types.longetude,
+  payload: value,
+});
+
+export const setCityName = (value: string) => ({
+  type: types.cityName,
+  payload: value,
+});
+
+export const setDescription = (value: string) => ({
+  type: types.description,
+  payload: value,
+});
+
+export const setIconId = (value: string) => ({
+  type: types.iconId,
+  payload: value,
+});
+
 export const setLoading = (value: boolean) => ({
   type: types.loading,
   payload: value,
@@ -94,6 +137,11 @@ export const setLoading = (value: boolean) => ({
 
 export const setErrorMessage = (value: string) => ({
   type: types.errorMessage,
+  payload: value,
+});
+
+export const setUpdate = (value: boolean) => ({
+  type: types.update,
   payload: value,
 });
 
