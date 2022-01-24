@@ -16,7 +16,7 @@ Além desses recursos também é possível atualizar as informações clicando n
 <br />
 <br />
 
-## Link para acessar o sistema, clique no link abaixo:
+## Para acessar o sistema, clique no abaixo:
 
 https://weather-app-iota-nine.vercel.app/
 
