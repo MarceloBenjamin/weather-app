@@ -18,48 +18,58 @@ interface Props {
 
 const WeatherAnimation: React.FC<Props> = ({ icon }: Props) => {
   const getIconById = (value: string) => {
-    switch (value) {
-      case '01d' || '01n':
-        return clearSky;
-
-      case '02d' || '02n':
-        return fewClounds;
-
-      case '03d' || '03n':
-        return scatteredClouds;
-
-      case '04d' || '04n':
-        return brokenClouds;
-
-      case '09d' || '09n':
-        return showerRain;
-
-      case '10d' || '10n':
-        return rain;
-
-      case '11d' || '11n':
-        return thunderstorm;
-
-      case '13d' || '13n':
-        return snow;
-
-      case '50d' || '50n':
-        return mist;
-
-      default:
-        return clearSky;
+    if (value === '01d' || value === '01n') {
+      return clearSky;
     }
+
+    if (value === '02d' || value === '02n') {
+      return fewClounds;
+    }
+
+    if (value === '03d' || value === '03n') {
+      return scatteredClouds;
+    }
+
+    if (value === '04d' || value === '04n') {
+      return brokenClouds;
+    }
+
+    if (value === '09d' || value === '09n') {
+      return showerRain;
+    }
+
+    if (value === '10d' || value === '10n') {
+      return rain;
+    }
+
+    if (value === '11d' || value === '11n') {
+      return thunderstorm;
+    }
+
+    if (value === '13d' || value === '13n') {
+      return snow;
+    }
+
+    if (value === '50d' || value === '50n') {
+      return mist;
+    }
+
+    return clearSky;
+  };
+
+  const lottieOptions = {
+    loop: true,
+    autoplay: true,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
   };
 
   return (
     <Lottie
       options={{
-        loop: true,
-        autoplay: true,
+        ...lottieOptions,
         animationData: getIconById(icon),
-        rendererSettings: {
-          preserveAspectRatio: 'xMidYMid slice',
-        },
       }}
       height={80}
       width={80}

@@ -75,3 +75,5 @@ export const TempType = styled(Typography)({
 export const ContainerAnimation = styled(Box)({
   marginLeft: 15,
 });
+
+export const Text = styled(Typography)({});

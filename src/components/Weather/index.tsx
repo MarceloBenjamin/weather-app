@@ -4,9 +4,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@ducks';
 
-import { setTempType } from '@ducks/city';
+import { setTempType, setUpdate } from '@ducks/city';
 
-import { Select, MenuItem, SelectChangeEvent, Button } from '@mui/material';
+import { Select, MenuItem, SelectChangeEvent, Fade, Grow } from '@mui/material';
 
 import kelvinToCelsius from 'kelvin-to-celsius';
 import kelvinToFahrenheit from 'kelvin-to-fahrenheit';
@@ -28,13 +28,21 @@ import {
   TempValue,
   TempType,
   ContainerAnimation,
+  Text,
 } from './styles';
 
 const Weather: React.FC = () => {
   const dispatch = useDispatch();
-  const { temp, tempType, wind, cityName, description, iconId } = useSelector(
-    (state: ReduxState) => state.city,
-  );
+  const {
+    temp,
+    tempType,
+    wind,
+    cityName,
+    description,
+    iconId,
+    loading,
+    update,
+  } = useSelector((state: ReduxState) => state.city);
 
   const tempOptions = ['Celsius', 'Fahrenheit', 'Kelvin'];
 
@@ -60,51 +68,76 @@ const Weather: React.FC = () => {
     return aux;
   };
 
+  const handleUpdate = () => {
+    dispatch(setUpdate(!update));
+  };
+
   return (
     <Container>
       <ContainerTop>
-        <UpdateButton variant="outlined">Atualizar</UpdateButton>
-
-        <Select
-          value={tempType}
-          onChange={handleChange}
-          inputProps={{ style: { width: '90px !important' } }}
+        <Grow
+          in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}
+          timeout={700}
         >
-          {tempOptions.map((tempValue: string) => (
-            <MenuItem key={tempValue} value={tempValue}>
-              {tempValue}
-            </MenuItem>
-          ))}
-        </Select>
+          <UpdateButton
+            disabled={loading}
+            variant="outlined"
+            onClick={handleUpdate}
+          >
+            Atualizar
+          </UpdateButton>
+        </Grow>
+
+        <Grow
+          in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}
+          timeout={1100}
+        >
+          <Select
+            value={tempType}
+            onChange={handleChange}
+            inputProps={{ style: { width: '90px !important' } }}
+          >
+            {tempOptions.map((tempValue: string) => (
+              <MenuItem key={tempValue} value={tempValue}>
+                {tempValue}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grow>
       </ContainerTop>
 
       <ContainerInfo>
-        <ContainerDetails>
-          <Title>{cityName}</Title>
+        <Fade in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}>
+          <ContainerDetails>
+            <Title color="primary">{cityName}</Title>
 
-          <Subtitle>{description}</Subtitle>
+            <Subtitle color="primary">{description}</Subtitle>
 
-          <ContainerWind>
-            <span>
-              Velocidade do vento:{' '}
-              {wind?.speed ? handleKmValue(wind?.speed) : 0} km/h
-            </span>
-            {/* <span>Graus: {wind?.deg}°</span> */}
-            <span>Umidade: {temp?.humidity}%</span>
-            <span>Pressão: {temp?.pressure} hPa</span>
-          </ContainerWind>
-        </ContainerDetails>
+            <ContainerWind>
+              <Text color="primary">
+                Velocidade do vento:{' '}
+                {wind?.speed ? handleKmValue(wind?.speed) : 0} km/h
+              </Text>
+              <Text color="primary">Umidade: {temp?.humidity}%</Text>
+              <Text color="primary">Pressão: {temp?.pressure} hPa</Text>
+            </ContainerWind>
+          </ContainerDetails>
+        </Fade>
 
-        <ContainerTemp>
-          <ContainerValues>
-            <TempValue>{`${handleTempType(temp?.temp || 0)}`}</TempValue>
-            <TempType>{`°${tempType[0]}`}</TempType>
-          </ContainerValues>
+        <Fade in={Boolean(temp?.temp && iconId)}>
+          <ContainerTemp>
+            <ContainerValues>
+              <TempValue color="primary">{`${handleTempType(
+                temp?.temp || 0,
+              )}`}</TempValue>
+              <TempType color="secondary">{`°${tempType[0]}`}</TempType>
+            </ContainerValues>
 
-          <ContainerAnimation>
-            <WeatherAnimation icon={iconId} />
-          </ContainerAnimation>
-        </ContainerTemp>
+            <ContainerAnimation>
+              <WeatherAnimation icon={iconId} />
+            </ContainerAnimation>
+          </ContainerTemp>
+        </Fade>
       </ContainerInfo>
     </Container>
   );

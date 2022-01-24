@@ -5,8 +5,8 @@ export const Container = styled(Box)({
   flexDirection: 'row',
   justifyContent: 'space-evenly',
   width: '100%',
-  marginTop: 60,
-  marginBottom: 120,
+  marginTop: 80,
+  marginBottom: 60,
 });
 
 export const ContainerInfo = styled(Box)({
@@ -21,6 +21,7 @@ export const ContainerInfo = styled(Box)({
   padding: 10,
   alignItems: 'center',
   justifyContent: 'space-between',
+  boxShadow: '0 0 12px rgba(0,0,0,0.05)',
 });
 
 export const ContainerTitle = styled(Box)({
