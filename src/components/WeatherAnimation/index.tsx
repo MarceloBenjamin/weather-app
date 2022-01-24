@@ -2,6 +2,8 @@ import React from 'react';
 
 import Lottie from 'react-lottie';
 
+import { Fade } from '@mui/material';
+
 import clearSky from '@assets/weatherAnimations/clear_sky.json';
 import fewClounds from '@assets/weatherAnimations/few_clounds.json';
 import brokenClouds from '@assets/weatherAnimations/broken_clouds.json';
@@ -68,18 +70,20 @@ const WeatherAnimation: React.FC<Props> = ({ icon }: Props) => {
   };
 
   return (
-    <Container>
-      <Shadow />
+    <Fade in timeout={1000}>
+      <Container>
+        <Shadow />
 
-      <Lottie
-        options={{
-          ...lottieOptions,
-          animationData: getIconById(icon),
-        }}
-        height={80}
-        width={80}
-      />
-    </Container>
+        <Lottie
+          options={{
+            ...lottieOptions,
+            animationData: getIconById(icon),
+          }}
+          height={80}
+          width={80}
+        />
+      </Container>
+    </Fade>
   );
 };
 

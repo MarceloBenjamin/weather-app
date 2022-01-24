@@ -13,5 +13,5 @@ export const Shadow = styled(Box)({
   width: 20,
   height: 20,
   borderRadius: 10,
-  boxShadow: '0 0 80px 45px rgba(0,0,0,0.2)',
+  boxShadow: '0 0 80px 45px rgba(0,0,0,0.18)',
 });
