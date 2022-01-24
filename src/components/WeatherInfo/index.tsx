@@ -84,7 +84,7 @@ const WeatherInfo: React.FC = () => {
     if (temp) {
       saveValues();
     }
-  }, [temp?.temp_max, temp?.temp_min, temp?.feels_like, clouds?.all]);
+  }, [temp?.temp_max, temp?.temp_min, temp?.feels_like, clouds?.all, tempType]);
 
   return (
     <Container>

@@ -13,6 +13,7 @@ export const Container = styled(Box)({
   padding: 20,
   borderRadius: 15,
   backgroundColor: '#fff',
+  outline: 0,
 });
 
 export const Title = styled(Typography)({

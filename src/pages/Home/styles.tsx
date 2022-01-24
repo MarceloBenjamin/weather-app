@@ -3,7 +3,6 @@ import { styled, Box } from '@mui/material';
 export const ContainerInput = styled(Box)({
   position: 'relative',
   width: '100%',
-  height: 500,
   display: 'flex',
   flexDirection: 'column',
 });
@@ -11,7 +10,6 @@ export const ContainerInput = styled(Box)({
 export const ContainerValue = styled(Box)({
   position: 'relative',
   width: '100%',
-  height: 500,
   display: 'flex',
 });
 

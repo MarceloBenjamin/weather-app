@@ -5,8 +5,9 @@ export const Container = styled(Box)({
   flexDirection: 'row',
   justifyContent: 'space-evenly',
   width: '100%',
-  marginTop: 80,
+  marginTop: 50,
   marginBottom: 60,
+  flexWrap: 'wrap',
 });
 
 export const ContainerInfo = styled(Box)({
@@ -15,8 +16,9 @@ export const ContainerInfo = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   borderRadius: 15,
-  marginLeft: 20,
-  marginRight: 20,
+  marginLeft: 30,
+  marginRight: 30,
+  marginTop: 30,
   backgroundColor: '#fff',
   padding: 10,
   alignItems: 'center',

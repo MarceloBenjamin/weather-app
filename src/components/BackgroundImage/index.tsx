@@ -19,7 +19,7 @@ const BackgroundImage: React.FC = () => {
   return (
     <Container>
       <Fade in={show} timeout={2000}>
-        <picture style={{ width: '100%', height: '100%' }}>
+        <picture style={{ width: '100%' }}>
           <Source srcSet={cloudsWebp} type="image/webp" />
           <Img src={cloudsPng} alt="Imagem de fundo" />
         </picture>

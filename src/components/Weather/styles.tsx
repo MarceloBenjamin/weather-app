@@ -6,13 +6,11 @@ export const Container = styled(Box)({
   flexDirection: 'column',
   paddingLeft: 60,
   paddingRight: 60,
-  paddingTop: 120,
 });
 
 export const ContainerTop = styled(Box)({
   width: '100%',
   display: 'flex',
-  flexDirection: 'row',
   justifyContent: 'flex-end',
 });
 
@@ -47,7 +45,6 @@ export const Subtitle = styled(Typography)({
 export const ContainerWind = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
-  marginTop: 120,
 });
 
 export const ContainerTemp = styled(Box)({

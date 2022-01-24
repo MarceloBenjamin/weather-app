@@ -6,7 +6,14 @@ import { ReduxState } from '@ducks';
 
 import { setTempType, setUpdate } from '@ducks/city';
 
-import { Select, MenuItem, SelectChangeEvent, Fade, Grow } from '@mui/material';
+import {
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  Fade,
+  Grow,
+  useTheme,
+} from '@mui/material';
 
 import kelvinToCelsius from 'kelvin-to-celsius';
 import kelvinToFahrenheit from 'kelvin-to-fahrenheit';
@@ -32,6 +39,8 @@ import {
 } from './styles';
 
 const Weather: React.FC = () => {
+  const theme = useTheme();
+
   const dispatch = useDispatch();
   const {
     temp,
@@ -69,11 +78,16 @@ const Weather: React.FC = () => {
   };
 
   const handleUpdate = () => {
-    dispatch(setUpdate(!update));
+    dispatch(setUpdate(true));
   };
 
   return (
-    <Container>
+    <Container
+      sx={{
+        [theme.breakpoints.up('xs')]: { paddingTop: '60px' },
+        [theme.breakpoints.up('lg')]: { paddingTop: '120px' },
+      }}
+    >
       <ContainerTop>
         <Grow
           in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}
@@ -106,14 +120,24 @@ const Weather: React.FC = () => {
         </Grow>
       </ContainerTop>
 
-      <ContainerInfo>
+      <ContainerInfo
+        sx={{
+          [theme.breakpoints.up('xs')]: { flexDirection: 'column' },
+          [theme.breakpoints.up('lg')]: { flexDirection: 'row' },
+        }}
+      >
         <Fade in={Boolean(wind?.speed && temp?.humidity && temp?.pressure)}>
           <ContainerDetails>
             <Title color="primary">{cityName}</Title>
 
             <Subtitle color="primary">{description}</Subtitle>
 
-            <ContainerWind>
+            <ContainerWind
+              sx={{
+                [theme.breakpoints.up('xs')]: { marginTop: '0px' },
+                [theme.breakpoints.up('lg')]: { marginTop: '120px' },
+              }}
+            >
               <Text color="primary">
                 Velocidade do vento:{' '}
                 {wind?.speed ? handleKmValue(wind?.speed) : 0} km/h

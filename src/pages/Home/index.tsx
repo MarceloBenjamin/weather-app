@@ -15,11 +15,12 @@ import {
   setIconId,
   setLoading,
   setErrorMessage,
+  setUpdate,
 } from '@ducks/city';
 
 import api from '@api';
 
-import { Grid } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
 
 import PageGrid from '@components/PageGrid';
 
@@ -33,6 +34,8 @@ import BackgroundImage from '@components/BackgroundImage';
 import { ContainerInput, ContainerValue, ContainerInfo } from './styles';
 
 const Home: React.FC = () => {
+  const theme = useTheme();
+
   const dispatch = useDispatch();
   const { city, update, latitude, longetude } = useSelector(
     (state: ReduxState) => state.city,
@@ -73,13 +76,14 @@ const Home: React.FC = () => {
       }
     } finally {
       dispatch(setLoading(false));
+      dispatch(setUpdate(false));
     }
   };
 
   useEffect(() => {
     if (city !== null) {
       getWeather();
-    } else if (latitude !== 0 && longetude !== 0) {
+    } else if (update && latitude !== 0 && longetude !== 0) {
       getWeather();
     }
   }, [city, update]);
@@ -91,7 +95,17 @@ const Home: React.FC = () => {
       <GeolocationModal />
 
       <PageGrid>
-        <Grid item xs={5} height={500} maxHeight={500}>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={5}
+          sx={{
+            [theme.breakpoints.up('xs')]: { height: 'auto' },
+            [theme.breakpoints.up('md')]: { height: 'auto' },
+            [theme.breakpoints.up('lg')]: { height: 500 },
+          }}
+        >
           <ContainerInput>
             <CitiesAutocomplete />
 
@@ -99,7 +113,17 @@ const Home: React.FC = () => {
           </ContainerInput>
         </Grid>
 
-        <Grid item xs={7} height={500} maxHeight={500}>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={7}
+          sx={{
+            [theme.breakpoints.up('xs')]: { height: 'auto' },
+            [theme.breakpoints.up('md')]: { height: 'auto' },
+            [theme.breakpoints.up('lg')]: { height: 500 },
+          }}
+        >
           <ContainerValue>
             <Weather />
           </ContainerValue>

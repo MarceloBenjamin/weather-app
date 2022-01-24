@@ -10,6 +10,7 @@ export const Container = styled(Box)({
   paddingLeft: 60,
   paddingRight: 60,
   paddingBottom: 30,
+  paddingTop: 30,
 });
 
 export const Row = styled(Box)({
