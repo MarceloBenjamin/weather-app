@@ -12,6 +12,8 @@ import scatteredClouds from '@assets/weatherAnimations/scattered_clouds.json';
 import snow from '@assets/weatherAnimations/snow.json';
 import thunderstorm from '@assets/weatherAnimations/thunderstorm.json';
 
+import { Container, Shadow } from './styles';
+
 interface Props {
   icon: string;
 }
@@ -66,14 +68,18 @@ const WeatherAnimation: React.FC<Props> = ({ icon }: Props) => {
   };
 
   return (
-    <Lottie
-      options={{
-        ...lottieOptions,
-        animationData: getIconById(icon),
-      }}
-      height={80}
-      width={80}
-    />
+    <Container>
+      <Shadow />
+
+      <Lottie
+        options={{
+          ...lottieOptions,
+          animationData: getIconById(icon),
+        }}
+        height={80}
+        width={80}
+      />
+    </Container>
   );
 };
 
